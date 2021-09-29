@@ -30,6 +30,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "extract": "yarn i18next-scanner",
     "prepare": "husky install"
   },
   "dependencies": {
