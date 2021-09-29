@@ -12,7 +12,7 @@ module.exports = {
     sort: true,
     removeUnusedKeys: true,
     lngs: i18n.locales,
-    ns: [DEFAULT_NAMESPACE],
+    ns: [DEFAULT_NAMESPACE, 'hero'],
     defaultLng: i18n.defaultLocale,
     defaultNs: DEFAULT_NAMESPACE,
     defaultKey: (_lng, ns, key) => `${ns}-${key}`,
