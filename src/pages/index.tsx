@@ -1,81 +1,71 @@
-import {
-  Box,
-  Container,
-  Heading,
-  Link,
-  SimpleGrid,
-  Text,
-} from '@chakra-ui/react';
-import Head from 'next/head';
+import React from 'react';
 
-import Image from '@/components/Image';
+import { Box, Flex, List, ListItem, Text } from '@chakra-ui/react';
+import { GetStaticPropsContext } from 'next';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+import Hero from '@/components/Hero';
 import RouteLink from '@/components/RouteLink';
 
-const Home = (): JSX.Element => (
-  <Container>
-    <Box>
-      Go to <RouteLink href="/new-page">New Page</RouteLink>
-    </Box>
-    <Head>
-      <title>Create Next App</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const Home = (): JSX.Element => {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const colorScheme = router.locale === router.defaultLocale ? 'green' : 'blue';
 
-    <Box as="main">
-      <Heading as="h1">
-        Welcome to{' '}
-        <Link href="https://nextjs.org" isExternal>
-          Next.js!
-        </Link>
-      </Heading>
+  return (
+    <>
+      <Head>
+        <title>{t('Index Page')}</title>
+      </Head>
 
-      <Text>
-        Get started by editing <Text as="code">pages/index.js</Text>
-      </Text>
-
-      <SimpleGrid>
-        <Link href="https://nextjs.org/docs" isExternal>
-          <Heading as="h3">Documentation &rarr;</Heading>
-          <Text>Find in-depth information about Next.js features and API.</Text>
-        </Link>
-
-        <Link href="https://nextjs.org/learn" isExternal>
-          <Heading as="h3">Learn &rarr;</Heading>
-          <Text>
-            Learn about Next.js in an interactive course with quizzes!
-          </Text>
-        </Link>
-
-        <Link
-          href="https://github.com/vercel/next.js/tree/master/examples"
-          isExternal
+      <Box>
+        <Flex
+          alignItems="center"
+          justify="space-between"
+          bgColor={`${colorScheme}.400`}
+          color="white"
+          fontWeight="bold"
+          py="4"
+          px="8"
         >
-          <Heading as="h3">Examples &rarr;</Heading>
-          <Text>Discover and deploy boilerplate example Next.js projects.</Text>
-        </Link>
-
-        <Link
-          href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          isExternal
-        >
-          <Heading as="h3">Deploy &rarr;</Heading>
           <Text>
-            Instantly deploy your Next.js site to a public URL with Vercel.
+            {t('Current locale is {{locale}}', { locale: router.locale })}
           </Text>
-        </Link>
-      </SimpleGrid>
-    </Box>
+          <List display="flex">
+            {router.locales?.map((locale) => (
+              <ListItem
+                key={locale}
+                mx="2"
+                color={locale === router.locale ? 'cyan' : 'white'}
+              >
+                <RouteLink href={router.asPath} locale={locale}>
+                  {locale}
+                </RouteLink>
+              </ListItem>
+            ))}
+          </List>
+        </Flex>
 
-    <Box as="footer">
-      <Link
-        href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        isExternal
-      >
-        Powered by{' '}
-        <Image src="/vercel.svg" alt="Vercel Logo" width={64} height={64} />
-      </Link>
-    </Box>
-  </Container>
-);
+        <Hero />
+      </Box>
+    </>
+  );
+};
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const localeProps = await serverSideTranslations(context.locale, [
+    'common',
+    'hero',
+  ]);
+
+  return {
+    props: {
+      ...localeProps,
+    },
+  };
+};
 
 export default Home;

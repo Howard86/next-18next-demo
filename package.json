@@ -30,6 +30,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "extract": "yarn i18next-scanner",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -38,6 +39,7 @@
     "@emotion/styled": "^11.3.0",
     "framer-motion": "^4.1.17",
     "next": "^11.1.2",
+    "next-i18next": "^8.8.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
@@ -59,6 +61,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^7.0.2",
+    "i18next-scanner": "^3.0.0",
     "lint-staged": "^11.1.2",
     "prettier": "^2.4.1",
     "typescript": "^4.4.3"
